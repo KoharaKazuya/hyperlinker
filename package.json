@@ -1,0 +1,19 @@
+{
+  "name": "hyperlinker",
+  "description": "creates hyperlinks from plain text on website",
+  "version": "1.0.0",
+  "devDependencies": {
+    "copy-webpack-plugin": "^4.5.1",
+    "memory-fs": "^0.4.1",
+    "webpack": "^4.12.1",
+    "webpack-cli": "^3.0.8"
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:extension && npm run build:bookmarklet",
+    "build:bookmarklet": "node build-bookmarklet.js",
+    "build:extension": "webpack --mode production"
+  },
+  "sideEffects": false
+}

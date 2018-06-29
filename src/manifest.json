@@ -1,0 +1,21 @@
+{
+  "name": "hyperlinker",
+  "description": "",
+  "version": "1.0",
+  "manifest_version": 2,
+  "icons": {
+    "48": "assets/images/icon48_disabled.png"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "name": "Click to get URL"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
