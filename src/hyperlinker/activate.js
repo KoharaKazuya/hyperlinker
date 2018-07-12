@@ -12,11 +12,14 @@ const activate = textNodes => {
   const smashedNodes = [];
 
   for (const n of textNodes) {
-    // 先祖要素に <a> か <textarea> があれば、処理しない
+    // 先祖要素に <a>, <textarea>, <style> があれば、処理しない
     if (
       hasAncestorBy(
         n,
-        node => isHtmlElementOf("a", node) || isHtmlElementOf("textarea", node)
+        node =>
+          isHtmlElementOf("a", node) ||
+          isHtmlElementOf("textarea", node) ||
+          isHtmlElementOf("style", node)
       )
     )
       continue;
