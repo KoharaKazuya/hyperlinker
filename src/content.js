@@ -40,6 +40,14 @@ window.addEventListener("keyup", event => {
   disable();
 });
 
+// enable のままウィンドウを離れたときにキー入力状態が追えなくならないように disable にする
+window.addEventListener("blur", () => {
+  disable();
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") disable();
+});
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.type) {
     // 切り替え指令があったとき enable/disable を切り替える
