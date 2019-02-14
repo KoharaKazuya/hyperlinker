@@ -44,5 +44,5 @@ $ convert \
     png:src/assets/images/icon48_disabled.png
 ```
 
-[chrome web store]: TODO
+[chrome web store]: https://chrome.google.com/webstore/detail/hyperlinker/ipbklljhldnlobbmnjaalbebbahamcmk
 [bookmarklet]: ./hyperlinker.bookmarklet
