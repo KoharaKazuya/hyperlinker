@@ -15,7 +15,7 @@ const activate = textNodes => {
   // 条件にマッチするテキストノードのみ処理する
   const targetMatcher = n =>
     // URL を含むテキストノードのみ処理する
-    urlMatcher.test(n.textContent) &&
+    urlMatcher.exec(n.textContent) &&
     // カーソルの選択領域がテキストノードに重なっていたら、処理しない
     !isIntersectedBySelection(n) &&
     // 先祖要素に <a>, <textarea>, <style> があれば、処理しない
