@@ -1,0 +1,36 @@
+name: chrome-extension-publish
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Check Git tag and Cargo declaration match
+        run: |
+          version="$(cat package.json | grep version | head -n1 | sed -E 's/^.*"version".*"(.*)".*$/\1/')"
+          test "$(git rev-parse "v$version")" = "$(git rev-parse HEAD)"
+      - name: Cache
+        uses: actions/cache@preview
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Build
+        run: |
+          yarn install --frozen-lockfile --non-interactive
+          yarn build:extension
+          zip -r dist.zip dist
+      - name: Release
+        uses: trmcnvn/chrome-addon@v1
+        with:
+          zip: dist.zip
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
