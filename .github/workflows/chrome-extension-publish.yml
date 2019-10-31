@@ -30,6 +30,7 @@ jobs:
       - name: Release
         uses: trmcnvn/chrome-addon@v1
         with:
+          extension: ipbklljhldnlobbmnjaalbebbahamcmk
           zip: dist.zip
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
