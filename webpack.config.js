@@ -7,5 +7,7 @@ module.exports = {
     background: "./background.js",
     content: "./content.js"
   },
-  plugins: [new CopyWebpackPlugin(["manifest.json", "assets"])]
+  plugins: [
+    new CopyWebpackPlugin(["manifest.json", { from: "assets", to: "assets" }])
+  ]
 };

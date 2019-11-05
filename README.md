@@ -19,30 +19,5 @@ HyperLinker bookmarklet activates hyperlinks. (no deactivate)
 
 [Bookmarklet][]
 
-## for Developers
-
-### Generate Icons
-
-Requirement: ImageMagick
-
-```console
-$ convert \
-    -size 48x48  \
-    -font "ArialB" \
-    -background "#3F3FBF" \
-    -fill "#FFFFFF"  \
-    -gravity center \
-    caption:"://" \
-    png:src/assets/images/icon48_enabled.png
-$ convert \
-    -size 48x48  \
-    -font "ArialB" \
-    -background "#72728C" \
-    -fill "#FFFFFF"  \
-    -gravity center \
-    caption:"://" \
-    png:src/assets/images/icon48_disabled.png
-```
-
 [chrome web store]: https://chrome.google.com/webstore/detail/hyperlinker/ipbklljhldnlobbmnjaalbebbahamcmk
 [bookmarklet]: ./hyperlinker.bookmarklet

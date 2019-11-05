@@ -1,6 +1,9 @@
 const highlightIcon = (highlight = true) => {
   chrome.browserAction.setIcon({
-    path: `assets/images/icon48_${highlight ? "enabled" : "disabled"}.png`
+    path: {
+      "48": `assets/images/icon48_${highlight ? "enabled" : "disabled"}.png`,
+      "128": `assets/images/icon128_${highlight ? "enabled" : "disabled"}.png`
+    }
   });
 };
 const unhighlightIcon = () => highlightIcon(false);
