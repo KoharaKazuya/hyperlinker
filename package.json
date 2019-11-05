@@ -1,7 +1,7 @@
 {
   "name": "hyperlinker",
   "description": "creates hyperlinks from plain text on website",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "devDependencies": {
     "copy-webpack-plugin": "^5.0.4",
     "webpack": "^4.41.2",
