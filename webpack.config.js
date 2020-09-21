@@ -5,9 +5,11 @@ module.exports = {
   context: path.resolve(__dirname, "src"),
   entry: {
     background: "./background.js",
-    content: "./content.js"
+    content: "./content.js",
   },
   plugins: [
-    new CopyWebpackPlugin(["manifest.json", { from: "assets", to: "assets" }])
-  ]
+    new CopyWebpackPlugin({
+      patterns: ["manifest.json", { from: "assets", to: "assets" }],
+    }),
+  ],
 };
