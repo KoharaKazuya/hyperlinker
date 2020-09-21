@@ -31,12 +31,18 @@ const sendState = () => {
 };
 
 // Ctrl, Cmd キーの down/up で enable/disable を切り替える
+let keyHoldTimer;
 window.addEventListener("keydown", event => {
   if (isMacOS() ? event.key !== "Meta" : event.key !== "Control") return;
-  enable();
+  if (keyHoldTimer) clearTimeout(keyHoldTimer);
+  keyHoldTimer = setTimeout(() => {
+    keyHoldTimer = undefined;
+    enable();
+  }, 500);
 });
 window.addEventListener("keyup", event => {
   if (isMacOS() ? event.key !== "Meta" : event.key !== "Control") return;
+  if (keyHoldTimer) clearTimeout(keyHoldTimer);
   disable();
 });
 
