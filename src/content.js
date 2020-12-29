@@ -1,73 +1,53 @@
-import isMacOS from "./hyperlinker/isMacOS";
-import textNodes from "./hyperlinker/textNodes";
 import activate from "./hyperlinker/activate";
 import deactivate from "./hyperlinker/deactivate";
+import textNodes from "./hyperlinker/textNodes";
 
-/**
- * @type {SmashedNode[]}
- */
-let smashedNodes = [];
-/**
- * @type {boolean}
- */
-let isEnabled = false;
+window.hyperlinker_extension = window.hyperlinker_extension || {
+  /**
+   * @type {SmashedNode[]}
+   */
+  smashedNodes: [],
+  /**
+   * @type {boolean}
+   */
+  isEnabled: false,
+};
 
 const enable = () => {
-  smashedNodes = smashedNodes.concat(activate(textNodes(document.body)));
-  isEnabled = true;
+  window.hyperlinker_extension.smashedNodes = window.hyperlinker_extension.smashedNodes.concat(
+    activate(textNodes(document.body))
+  );
+  window.hyperlinker_extension.isEnabled = true;
   sendState();
 };
 const disable = () => {
-  deactivate(smashedNodes);
-  smashedNodes = [];
-  isEnabled = false;
+  deactivate(window.hyperlinker_extension.smashedNodes);
+  window.hyperlinker_extension.smashedNodes = [];
+  window.hyperlinker_extension.isEnabled = false;
   sendState();
+  // イベントリスナーの解除
+  window.removeEventListener("blur", blurListener);
+  document.removeEventListener("visibilitychange", visibilityListener);
 };
-const toggle = () => (isEnabled ? disable() : enable());
+const toggle = () =>
+  window.hyperlinker_extension.isEnabled ? disable() : enable();
 
 // 現在状態を background script に送信する
 const sendState = () => {
-  chrome.runtime.sendMessage({ type: "state", enabled: isEnabled });
+  chrome.runtime.sendMessage({
+    type: "state",
+    enabled: window.hyperlinker_extension.isEnabled,
+  });
 };
 
-// Ctrl, Cmd キーの down/up で enable/disable を切り替える
-let keyHoldTimer;
-window.addEventListener("keydown", event => {
-  if (isMacOS() ? event.key !== "Meta" : event.key !== "Control") return;
-  if (keyHoldTimer) clearTimeout(keyHoldTimer);
-  keyHoldTimer = setTimeout(() => {
-    keyHoldTimer = undefined;
-    enable();
-  }, 500);
-});
-window.addEventListener("keyup", event => {
-  if (isMacOS() ? event.key !== "Meta" : event.key !== "Control") return;
-  if (keyHoldTimer) clearTimeout(keyHoldTimer);
-  disable();
-});
-
 // enable のままウィンドウを離れたときにキー入力状態が追えなくならないように disable にする
-window.addEventListener("blur", () => {
+function blurListener() {
   disable();
-});
-document.addEventListener("visibilitychange", () => {
+}
+window.addEventListener("blur", blurListener);
+function visibilityListener() {
   if (document.visibilityState === "hidden") disable();
-});
+}
+document.addEventListener("visibilitychange", visibilityListener);
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  switch (request.type) {
-    // 切り替え指令があったとき enable/disable を切り替える
-    case "toggle": {
-      toggle();
-      break;
-    }
-    // 現在状態の問い合わせがあったとき、現在状態を送信する
-    case "query": {
-      sendState();
-      break;
-    }
-    default: {
-      console.warn("Unknown request type: ", request.type);
-    }
-  }
-});
+toggle();

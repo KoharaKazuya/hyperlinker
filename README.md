@@ -10,7 +10,7 @@ A simple Google Chrome extension creates hyperlinks from plain text on website.
 
 HyperLinker provides two ways to create hyperlinks.
 
-1.  Activate hyperlinks while pressing `ctrl` key (macOS: `command` key), and deactivate when releasing the key.
+1.  Use Chrome keyboard shortcuts (default `Alt+Shift+H` for hyperlinker) to toggle activate/deactivate hyperlinks.
 2.  At every click the HyperLinker icon (in chrome menu), toggle activate/deactivate hyperlinks.
 
 ## Bookmarklet Edition
