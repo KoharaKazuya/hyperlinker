@@ -10,25 +10,25 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
-      - name: Check Git tag and Cargo declaration match
+        uses: actions/checkout@v2
+      - name: Check Git tag and package.json declaration match
         run: |
           version="$(cat package.json | grep version | head -n1 | sed -E 's/^.*"version".*"(.*)".*$/\1/')"
           test "$(git rev-parse "v$version")" = "$(git rev-parse HEAD)"
       - name: Cache
-        uses: actions/cache@preview
+        uses: actions/cache@v2
         with:
-          path: ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-node-
       - name: Build
         run: |
-          yarn install --frozen-lockfile --non-interactive
-          yarn build:extension
+          npm ci
+          npm run build
           zip -r dist.zip dist
       - name: Release
-        uses: trmcnvn/chrome-addon@v1
+        uses: trmcnvn/chrome-addon@7fc5a5ad3ff597dc64d6a13de7dcaa8515328be7 # v2
         with:
           extension: ipbklljhldnlobbmnjaalbebbahamcmk
           zip: dist.zip
