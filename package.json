@@ -3,7 +3,7 @@
   "description": "creates hyperlinks from plain text on website",
   "version": "2.0.0",
   "devDependencies": {
-    "rollup": "^2.44.0",
+    "rollup": "^3.29.5",
     "rollup-plugin-terser": "^7.0.2"
   },
   "license": "MIT",
